@@ -1,0 +1,1 @@
+{"input_shape": [7, 40, 148, 148], "output_shape_1": [1, 8, 60, 60], "output_shape_2": [1, 6, 52, 52]}

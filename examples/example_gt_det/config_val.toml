@@ -1,0 +1,59 @@
+model = "config_model.toml"
+
+[general]
+logging = 20
+db_host = "localhost"
+seed = 42
+setup_dir = "."
+sparse = false
+
+[extract]
+edge_move_threshold = 45
+
+[solve]
+# parameters = "config_parameters.toml"
+context = [ 2, 100, 100, 100,]
+solver_type = "basic"
+grid_search = true
+[solve.parameters_search_grid]
+weight_node_score =   [-13, -17, -21]
+selection_constant =  [6, 9, 12]
+track_cost =          [7,]
+weight_division =     [-8, -11]
+division_constant =   [6.0, 2.5]
+weight_child =        [1.0, 2.0]
+weight_continuation = [-1.0]
+weight_edge_score =   [0.35]
+max_cell_move = [45]
+val = [true]
+block_size = [[15, 512, 512, 712]]
+num_configs = 10
+
+
+[inference_data]
+checkpoint = 10
+cell_score_threshold = 0.2
+[inference_data.data_source]
+gt_db_name = "linajea_mskcc_emb1_gt"
+voxel_size = [ 1, 5, 1, 1,]
+db_name = "linajea_mskcc_emb1_gt_as_pred"
+[inference_data.data_source.roi]
+offset = [ 0, 0, 0, 0,]
+shape = [270, 205, 512, 512,]
+
+[evaluate.parameters]
+matching_threshold = 15
+
+[predict]
+use_swa = true
+write_to_zarr = true
+write_to_db = false
+
+[predict.normalization]
+type = "minmax"
+perc_min = "perc0_01"
+perc_max = "perc99_99"
+norm_bounds = [ 2000, 7500,]
+[predict.job]
+num_workers = 1
+run_on = "local"
